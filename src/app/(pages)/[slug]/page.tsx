@@ -4,13 +4,20 @@ import { notFound } from "next/navigation";
 
 const PAGE_QUERY = `*[_type == "page" && slug.current == $slug][0]{
   title,
-  content
+  content[] {
+    ...,
+    _type == "image" => {
+      "url": asset->url,
+      "alt": asset->alt
+    }
+  }
 }`;
 
 type PageQueryResult = {
   title: string;
   content: Array<{
     _type: string;
+    _key: string;
     [key: string]: any;
   }>;
 } | null;
@@ -25,9 +32,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return notFound();
   }
 
+  console.log("Page data:", JSON.stringify(page, null, 2));
+
   return (
     <main>
-      <h1>{page.title}</h1>
       <BlockRenderer blocks={page.content} />
     </main>
   );
