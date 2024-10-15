@@ -1,9 +1,11 @@
 import { defineField, defineType } from "sanity";
+import { BlockElementIcon } from "@sanity/icons";
 
 export const ctaBlockType = defineType({
   name: "ctaBlock",
   title: "CTA Block",
   type: "object",
+  icon: BlockElementIcon,
   fields: [
     defineField({
       name: "heading",

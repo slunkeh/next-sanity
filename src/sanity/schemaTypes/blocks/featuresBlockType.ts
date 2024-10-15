@@ -1,9 +1,9 @@
 import { defineField, defineType } from "sanity";
 import { BlockElementIcon } from "@sanity/icons";
 
-export const servicesBlockType = defineType({
-  name: "servicesBlock",
-  title: "Services Block",
+export const featuresBlockType = defineType({
+  name: "featuresBlock",
+  title: "Features Block",
   type: "object",
   icon: BlockElementIcon,
   fields: [
@@ -23,23 +23,15 @@ export const servicesBlockType = defineType({
       title: "Subheading",
     }),
     defineField({
-      name: "services",
+      name: "features",
       type: "array",
-      title: "Services",
+      title: "Features",
       of: [
         {
           type: "object",
           fields: [
             { name: "title", type: "string", title: "Title" },
             { name: "description", type: "text", title: "Description" },
-            {
-              name: "icon",
-              type: "image",
-              title: "Icon",
-              options: {
-                hotspot: true,
-              },
-            },
           ],
         },
       ],

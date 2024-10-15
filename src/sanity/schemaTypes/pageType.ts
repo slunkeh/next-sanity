@@ -23,6 +23,7 @@ export const pageType = defineType({
         { type: "heroBlock" },
         { type: "ctaBlock" },
         { type: "servicesBlock" },
+        { type: "featuresBlock" },
       ],
     }),
   ],

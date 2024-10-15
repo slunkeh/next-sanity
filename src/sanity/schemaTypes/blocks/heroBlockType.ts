@@ -1,9 +1,11 @@
 import { defineField, defineType } from "sanity";
+import { BlockElementIcon } from "@sanity/icons";
 
 export const heroBlockType = defineType({
   name: "heroBlock",
   title: "Hero Block",
   type: "object",
+  icon: BlockElementIcon,
   fields: [
     defineField({
       name: "heroType",

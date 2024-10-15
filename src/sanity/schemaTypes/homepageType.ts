@@ -9,16 +9,13 @@ export const homepageType = defineType({
   },
   fields: [
     defineField({
-      name: "title",
-      type: "string",
-    }),
-    defineField({
       name: "content",
       type: "array",
       of: [
         { type: "heroBlock" },
         { type: "ctaBlock" },
         { type: "servicesBlock" },
+        { type: "featuresBlock" },
       ],
     }),
   ],

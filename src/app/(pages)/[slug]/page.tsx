@@ -5,7 +5,6 @@ import { defineQuery } from "next-sanity";
 
 const PAGE_QUERY = defineQuery(`*[_type == "page" && slug.current == $slug][0]{
   _id,
-  title,
   content[] {
     _type,
     _key
@@ -19,7 +18,6 @@ type PageContent = {
 
 type PageQueryResult = {
   _id: string;
-  title: string;
   content: PageContent[];
 } | null;
 
