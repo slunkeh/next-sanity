@@ -15,7 +15,11 @@ export const homepageType = defineType({
     defineField({
       name: "content",
       type: "array",
-      of: [{ type: "heroBlock" }, { type: "ctaBlock" }],
+      of: [
+        { type: "heroBlock" },
+        { type: "ctaBlock" },
+        { type: "servicesBlock" },
+      ],
     }),
   ],
 });

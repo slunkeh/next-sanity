@@ -1,5 +1,6 @@
 import { CTABlock } from "@/components/blocks/CTABlock";
 import { HeroBlock } from "@/components/blocks/HeroBlock";
+import { ServicesBlock } from "@/components/blocks/ServicesBlock";
 
 type Block = {
   _type: string;
@@ -23,6 +24,14 @@ export function BlockRenderer({ blocks, pageId }: BlockRendererProps) {
           case "heroBlock":
             return (
               <HeroBlock key={block._key} _key={block._key} pageId={pageId} />
+            );
+          case "servicesBlock":
+            return (
+              <ServicesBlock
+                key={block._key}
+                _key={block._key}
+                pageId={pageId}
+              />
             );
           default:
             return null;
