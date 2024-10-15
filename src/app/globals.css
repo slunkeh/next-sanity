@@ -1,3 +1,161 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*****************************************************************
+Main
+*****************************************************************/
+
+html {
+  --scroll-behavior: smooth !important;
+  scroll-behavior: smooth !important;
+}
+body {
+  @apply text-ad-dark;
+  background-color: #fbfbfb;
+}
+::selection {
+  @apply bg-ad-blue text-ad-mint;
+}
+::-moz-selection {
+  @apply bg-ad-blue text-ad-mint;
+}
+
+/*****************************************************************
+Utilities
+*****************************************************************/
+
+.container-main {
+  @apply container mx-auto;
+}
+
+.global-padding {
+  @apply px-5;
+}
+
+.section-padding-large {
+  @apply py-16 md:py-28 lg:py-32;
+}
+
+.section-between-large {
+  @apply pt-8 md:pt-14 lg:pt-16 pb-16 md:pb-28 lg:pb-32;
+}
+
+.section-padding-medium {
+  @apply py-20 md:py-24 lg:py-28;
+}
+
+hr {
+  @apply h-px my-8 bg-gray-700 border-0;
+}
+
+.noise-overlay {
+  background-image: url("/decorative/noise-mono-small.png");
+  background-repeat: repeat;
+}
+
+/*****************************************************************
+Typography
+*****************************************************************/
+
+.text-gradient {
+  background: linear-gradient(to right, #6768f2, #aaf8d9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/*****************************************************************
+Buttons
+*****************************************************************/
+
+.btn {
+  @apply inline-flex justify-center items-center px-5 py-2.5 text-lg font-semibold text-ad-light border border-ad-light rounded-full transition duration-300 ease-in-out tracking-tighter;
+}
+
+.btn--primary {
+  @apply bg-ad-blue border-ad-blue hover:bg-ad-blue-600 hover:border-ad-blue-600 text-white;
+}
+
+.btn--ghost-primary {
+  @apply bg-transparent border-ad-blue hover:bg-ad-blue hover:border-ad-blue text-ad-blue hover:text-white;
+}
+
+.btn--secondary {
+  @apply bg-ad-mint border-ad-mint hover:bg-ad-mint-600 hover:border-ad-mint-600 text-ad-dark;
+}
+
+.btn--ghost-secondary {
+  @apply bg-transparent border-ad-mint hover:bg-ad-mint hover:border-ad-mint text-ad-mint hover:text-ad-dark;
+}
+
+.btn--tertiary {
+  @apply bg-ad-yellow border-ad-yellow hover:bg-ad-yellow-600 hover:border-ad-yellow-600 text-ad-dark;
+}
+
+.btn--dark {
+  @apply bg-ad-dark border-ad-dark hover:bg-ad-dark-900 hover:border-ad-dark-900 text-white;
+}
+
+.btn--ghost-dark {
+  @apply bg-transparent border-ad-dark hover:bg-ad-dark hover:border-ad-dark text-ad-dark hover:text-white;
+}
+
+.btn--light {
+  @apply bg-white border-white hover:bg-ad-dark-100 hover:border-ad-dark-100 text-ad-blue;
+}
+
+.btn--ghost-light {
+  @apply bg-transparent border-ad-light hover:bg-ad-dark-300 hover:border-ad-dark-300 text-ad-light;
+}
+
+button:disabled {
+  @apply bg-gray-400;
+  cursor: not-allowed; /* change cursor to not-allowed when button is disabled */
+}
+
+/*****************************************************************
+Forms
+*****************************************************************/
+
+.input {
+  @apply rounded border shadow-sm text-ad-dark-900 text-lg focus:outline-none focus:ring focus:ring-ad-mint block w-full p-4 placeholder:text-ad-dark;
+}
+
+.field-label {
+  @apply block mb-2 text-sm font-medium text-ad-dark;
+}
+
+/*****************************************************************
+Miscellaneous
+*****************************************************************/
+
+.gradient-line {
+  background: linear-gradient(180deg, #fff 0%, #1d1f21 50%, #fff 100%);
+}
+
+/*****************************************************************
+Animations
+*****************************************************************/
+
+.bg-animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-animation 5s ease infinite;
+  background-image: linear-gradient(
+    115deg,
+    var(--from-color) 0%,
+    var(--via-color) 50%,
+    var(--to-color) 100%
+  );
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}

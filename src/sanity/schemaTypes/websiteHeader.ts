@@ -30,13 +30,40 @@ export const websiteHeader = defineType({
               type: "string",
             },
             {
-              name: "link",
-              title: "Link",
+              name: "linkType",
+              title: "Link Type",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Page Reference", value: "reference" },
+                  { title: "Anchor Link", value: "anchor" },
+                ],
+              },
+            },
+            {
+              name: "reference",
+              title: "Page Reference",
               type: "reference",
               to: [{ type: "homepage" }, { type: "post" }, { type: "page" }],
+              hidden: ({ parent }) => parent?.linkType !== "reference",
+            },
+            {
+              name: "anchor",
+              title: "Anchor Link",
+              type: "string",
+              hidden: ({ parent }) => parent?.linkType !== "anchor",
             },
           ],
         },
+      ],
+    }),
+    defineField({
+      name: "ctaButton",
+      title: "CTA Button",
+      type: "object",
+      fields: [
+        { name: "text", type: "string", title: "Button Text" },
+        { name: "link", type: "string", title: "Button Link" },
       ],
     }),
   ],
