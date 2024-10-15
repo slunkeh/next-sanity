@@ -24,6 +24,7 @@ export const pageType = defineType({
         { type: "ctaBlock" },
         { type: "servicesBlock" },
         { type: "featuresBlock" },
+        { type: "portfolioBlock" },
       ],
     }),
   ],
