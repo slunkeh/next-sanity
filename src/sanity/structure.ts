@@ -1,15 +1,29 @@
-import type {StructureResolver} from 'sanity/structure'
+import type { StructureResolver } from "sanity/structure";
+import {
+  singletonDocumentListItem,
+  filteredDocumentListItems,
+} from "sanity-plugin-singleton-tools";
+import { HomeIcon } from "@sanity/icons";
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
-export const structure: StructureResolver = (S) =>
+export const structure: StructureResolver = (S, context) =>
   S.list()
-    .title('Blog')
+    .title("Blog")
     .items([
-      S.documentTypeListItem('post').title('Posts'),
-      S.documentTypeListItem('category').title('Categories'),
-      S.documentTypeListItem('author').title('Authors'),
+      // Homepage as a singleton
+      singletonDocumentListItem({
+        S,
+        context,
+        type: "homepage",
+        title: "Homepage",
+        id: "homepage",
+        icon: HomeIcon,
+      }),
       S.divider(),
-      ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['post', 'category', 'author'].includes(item.getId()!),
-      ),
-    ])
+      // Existing document types
+      // S.documentTypeListItem("post").title("Posts"),
+      // S.documentTypeListItem("category").title("Categories"),
+      // S.documentTypeListItem("author").title("Authors"),
+      // S.divider(),
+      // Filter out singleton documents from the rest of the document types
+      ...filteredDocumentListItems({ S, context }),
+    ]);

@@ -3,7 +3,7 @@ import { BlockRenderer } from "@/components/BlockRenderer";
 import { defineQuery } from "next-sanity";
 
 const HOME_PAGE_QUERY = defineQuery(`
-  *[_type == "homepage"][0] {
+  *[_type == "homepage"][0]  { 
     _id,
     title,
     content[] {
@@ -33,7 +33,6 @@ export default async function Home() {
 
   return (
     <main>
-      <h1>{data.title}</h1>
       <BlockRenderer blocks={data.content} pageId={data._id} />
     </main>
   );

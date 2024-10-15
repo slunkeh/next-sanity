@@ -14,6 +14,7 @@ import { schema } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
 import { presentationTool } from "sanity/presentation";
 import { resolve } from "@/sanity/presentation/resolve";
+import { singletonTools } from "sanity-plugin-singleton-tools";
 
 export default defineConfig({
   basePath: "/studio",
@@ -34,5 +35,6 @@ export default defineConfig({
         },
       },
     }),
+    singletonTools(),
   ],
 });
