@@ -17,6 +17,7 @@ export const homepageType = defineType({
         { type: "servicesBlock" },
         { type: "featuresBlock" },
         { type: "portfolioBlock" },
+        { type: "pricingBlock" },
       ],
     }),
   ],

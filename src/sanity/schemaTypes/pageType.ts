@@ -25,6 +25,7 @@ export const pageType = defineType({
         { type: "servicesBlock" },
         { type: "featuresBlock" },
         { type: "portfolioBlock" },
+        { type: "pricingBlock" },
       ],
     }),
   ],
