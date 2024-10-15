@@ -65,7 +65,7 @@ export async function Header() {
               <Image
                 src={headerData.logo.asset.url}
                 alt="Logo"
-                width={150}
+                width={50}
                 height={50}
                 className="mr-4"
               />
