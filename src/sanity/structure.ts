@@ -1,8 +1,5 @@
 import type { StructureResolver } from "sanity/structure";
-import {
-  singletonDocumentListItem,
-  filteredDocumentListItems,
-} from "sanity-plugin-singleton-tools";
+import { singletonDocumentListItem } from "sanity-plugin-singleton-tools";
 import { HomeIcon } from "@sanity/icons";
 import { StackIcon } from "@sanity/icons";
 
@@ -29,12 +26,10 @@ export const structure: StructureResolver = (S, context) =>
         id: "homepage",
         icon: HomeIcon,
       }),
+      S.documentTypeListItem("page").title("Pages"),
       S.divider(),
       // Existing document types
-      // S.documentTypeListItem("post").title("Posts"),
-      // S.documentTypeListItem("category").title("Categories"),
-      // S.documentTypeListItem("author").title("Authors"),
-      // S.divider(),
-      // Filter out singleton documents from the rest of the document types
-      ...filteredDocumentListItems({ S, context }),
+      S.documentTypeListItem("post").title("Posts"),
+      S.documentTypeListItem("category").title("Categories"),
+      S.documentTypeListItem("author").title("Authors"),
     ]);
