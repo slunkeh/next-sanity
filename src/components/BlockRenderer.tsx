@@ -1,28 +1,32 @@
-import { HeroBlock } from "./blocks//HeroBlock";
-import { CTABlock } from "./blocks/CTABlock";
+import { CTABlock } from "@/components/blocks/CTABlock";
+import { HeroBlock } from "@/components/blocks/HeroBlock";
+
+type Block = {
+  _type: string;
+  _key: string;
+};
 
 type BlockRendererProps = {
-  blocks: Array<{
-    _type: string;
-    [key: string]: any;
-  }>;
+  blocks: Block[];
+  pageId: string;
 };
 
-const blockComponents = {
-  heroBlock: HeroBlock,
-  ctaBlock: CTABlock,
-};
-
-export function BlockRenderer({ blocks }: BlockRendererProps) {
+export function BlockRenderer({ blocks, pageId }: BlockRendererProps) {
   return (
     <>
       {blocks.map((block) => {
-        const BlockComponent =
-          blockComponents[block._type as keyof typeof blockComponents];
-        if (BlockComponent) {
-          return <BlockComponent key={block._key} {...block} />;
+        switch (block._type) {
+          case "ctaBlock":
+            return (
+              <CTABlock key={block._key} _key={block._key} pageId={pageId} />
+            );
+          case "heroBlock":
+            return (
+              <HeroBlock key={block._key} _key={block._key} pageId={pageId} />
+            );
+          default:
+            return null;
         }
-        return null;
       })}
     </>
   );

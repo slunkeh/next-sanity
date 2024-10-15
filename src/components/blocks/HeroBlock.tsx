@@ -1,24 +1,34 @@
 import Image from "next/image";
+import { sanityFetch } from "@/sanity/lib/client";
+import { defineQuery } from "next-sanity";
+
+const HERO_BLOCK_QUERY = defineQuery(`
+  *[(_type == "homepage" || _type == "page") && _id == $pageId][0].content[_type == "heroBlock" && _key == $key][0] {
+    heading,
+    subheading,
+    backgroundImage {
+      asset-> {
+        url
+      }
+    }
+  }
+`);
 
 type HeroBlockProps = {
-  heading: string;
-  subheading: string;
-  backgroundImage?: {
-    asset: {
-      url: string;
-    };
-  };
+  _key: string;
+  pageId: string;
 };
 
-export function HeroBlock({
-  heading,
-  subheading,
-  backgroundImage,
-}: HeroBlockProps) {
-  console.log("HeroBlock props:", { heading, subheading, backgroundImage });
+export async function HeroBlock({ _key, pageId }: HeroBlockProps) {
+  const block = await sanityFetch({
+    query: HERO_BLOCK_QUERY,
+    params: { key: _key, pageId },
+  });
 
+  if (!block) return null;
+
+  const { heading, subheading, backgroundImage } = block;
   const imageUrl = backgroundImage?.asset?.url;
-  console.log("Image URL:", imageUrl);
 
   return (
     <div className="relative h-screen">

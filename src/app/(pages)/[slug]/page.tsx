@@ -1,40 +1,26 @@
 import { BlockRenderer } from "@/components/BlockRenderer";
 import { sanityFetch } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
+import { defineQuery } from "next-sanity";
 
-const PAGE_QUERY = `*[_type == "page" && slug.current == $slug][0]{
+const PAGE_QUERY = defineQuery(`*[_type == "page" && slug.current == $slug][0]{
+  _id,
   title,
   content[] {
     _type,
-    _key,
-    heading,
-    subheading,
-    buttonText,
-    linkType,
-    "internalLink": internalLink-> {
-      _id,
-      _type,
-      title,
-      "slug": slug.current
-    },
-    externalLink,
-    backgroundImage {
-      asset-> {
-        _id,
-        _type,
-        url
-      }
-    }
+    _key
   }
-}`;
+}`);
+
+type PageContent = {
+  _type: string;
+  _key: string;
+};
 
 type PageQueryResult = {
+  _id: string;
   title: string;
-  content: Array<{
-    _type: string;
-    _key: string;
-    [key: string]: any;
-  }>;
+  content: PageContent[];
 } | null;
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -47,11 +33,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return notFound();
   }
 
-  console.log("Page data:", JSON.stringify(page, null, 2));
-
   return (
     <main>
-      <BlockRenderer blocks={page.content} />
+      <h1>{page.title}</h1>
+      <BlockRenderer blocks={page.content} pageId={page._id} />
     </main>
   );
 }
