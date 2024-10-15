@@ -34,9 +34,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <main>
-      <h1>{page.title}</h1>
-      <BlockRenderer blocks={page.content} pageId={page._id} />
-    </main>
+    <>
+      <main>
+        <h1>{page.title}</h1>
+        <BlockRenderer blocks={page.content} pageId={page._id} />
+      </main>
+    </>
   );
 }

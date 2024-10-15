@@ -4,11 +4,22 @@ import {
   filteredDocumentListItems,
 } from "sanity-plugin-singleton-tools";
 import { HomeIcon } from "@sanity/icons";
+import { StackIcon } from "@sanity/icons";
 
 export const structure: StructureResolver = (S, context) =>
   S.list()
-    .title("Blog")
+    .title("Website")
     .items([
+      // Create a list item for each singleton document in your schema that links directly to a document view
+      // Website header as a singleton
+      singletonDocumentListItem({
+        S,
+        context,
+        type: "websiteHeader",
+        title: "Website Header",
+        id: "websiteHeader",
+        icon: StackIcon,
+      }),
       // Homepage as a singleton
       singletonDocumentListItem({
         S,

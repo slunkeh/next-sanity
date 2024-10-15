@@ -8,7 +8,7 @@ import { pageType } from "./pageType";
 import { homepageType } from "./homepageType";
 import { heroBlockType } from "./blocks/heroBlockType";
 import { ctaBlockType } from "./blocks/ctaBlockType";
-import { navigationType } from "./navigationType";
+import { websiteHeader } from "./websiteHeader";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -20,6 +20,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     homepageType,
     heroBlockType,
     ctaBlockType,
-    navigationType,
+    websiteHeader,
   ],
 };

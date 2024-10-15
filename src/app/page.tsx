@@ -1,5 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/client";
 import { BlockRenderer } from "@/components/BlockRenderer";
+import { Header } from "@/components/Header";
 import { defineQuery } from "next-sanity";
 
 const HOME_PAGE_QUERY = defineQuery(`
@@ -32,8 +33,11 @@ export default async function Home() {
   }
 
   return (
-    <main>
-      <BlockRenderer blocks={data.content} pageId={data._id} />
-    </main>
+    <>
+      <Header />
+      <main>
+        <BlockRenderer blocks={data.content} pageId={data._id} />
+      </main>
+    </>
   );
 }
