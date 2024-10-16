@@ -20,6 +20,7 @@ export const homepageType = defineType({
         { type: "pricingBlock" },
         { type: "faqBlock" },
         { type: "contactBlock" },
+        { type: "articleBlock" },
       ],
     }),
   ],

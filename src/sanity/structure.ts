@@ -1,6 +1,6 @@
 import type { StructureResolver } from "sanity/structure";
 import { singletonDocumentListItem } from "sanity-plugin-singleton-tools";
-import { HomeIcon, StackIcon } from "@sanity/icons";
+import { HomeIcon, StackIcon, CogIcon } from "@sanity/icons";
 
 export const structure: StructureResolver = (S, context) =>
   S.list()
@@ -40,4 +40,13 @@ export const structure: StructureResolver = (S, context) =>
       S.documentTypeListItem("post").title("Posts"),
       S.documentTypeListItem("category").title("Categories"),
       S.documentTypeListItem("author").title("Authors"),
+      S.divider(),
+      singletonDocumentListItem({
+        S,
+        context,
+        type: "settings",
+        title: "Settings",
+        id: "settings",
+        icon: CogIcon,
+      }),
     ]);

@@ -28,6 +28,7 @@ export const pageType = defineType({
         { type: "pricingBlock" },
         { type: "faqBlock" },
         { type: "contactBlock" },
+        { type: "articleBlock" },
       ],
     }),
   ],

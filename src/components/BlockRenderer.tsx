@@ -6,6 +6,7 @@ import { PortfolioBlock } from "@/components/blocks/PortfolioBlock";
 import { PricingBlock } from "@/components/blocks/PricingBlock";
 import { FaqBlock } from "@/components/blocks/FaqBlock";
 import { ContactBlock } from "@/components/blocks/ContactBlock";
+import { ArticleBlock } from "@/components/blocks/ArticleBlock";
 
 type Block = {
   _type: string;
@@ -69,6 +70,14 @@ export function BlockRenderer({ blocks, pageId }: BlockRendererProps) {
           case "contactBlock":
             return (
               <ContactBlock
+                key={block._key}
+                _key={block._key}
+                pageId={pageId}
+              />
+            );
+          case "articleBlock":
+            return (
+              <ArticleBlock
                 key={block._key}
                 _key={block._key}
                 pageId={pageId}
