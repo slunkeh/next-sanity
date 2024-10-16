@@ -1,9 +1,10 @@
 import { sanityFetch } from "@/sanity/lib/client";
 import { BlockRenderer } from "@/components/BlockRenderer";
-import { Header } from "@/components/Header";
 import { defineQuery } from "next-sanity";
-import { Footer } from "@/components/Footer";
 import { Metadata } from "next";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { WhatsApp } from "@/components/WhatsApp";
 
 const HOME_PAGE_QUERY = defineQuery(`
   *[_type == "homepage"][0]  { 
@@ -92,6 +93,7 @@ export default async function Home() {
         <BlockRenderer blocks={data.content} pageId={data._id} />
       </main>
       <Footer />
+      <WhatsApp />
     </>
   );
 }

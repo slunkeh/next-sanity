@@ -3,6 +3,9 @@ import { sanityFetch } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
 import { defineQuery } from "next-sanity";
 import { Metadata } from "next";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { WhatsApp } from "@/components/WhatsApp";
 
 const PAGE_QUERY = defineQuery(`*[_type == "page" && slug.current == $slug][0]{
   _id,
@@ -94,9 +97,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <>
+      <Header />
       <main>
         <BlockRenderer blocks={page.content} pageId={page._id} />
       </main>
+      <Footer />
+      <WhatsApp />
     </>
   );
 }
