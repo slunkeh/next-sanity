@@ -3,7 +3,7 @@ import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/client";
 import { defineQuery } from "next-sanity";
 import { PortableText } from "@portabletext/react";
-import ContactForm from "../ContactForm";
+import ContactForm from "@/components/ContactForm";
 
 const CONTACT_BLOCK_QUERY = defineQuery(`
   *[(_type == "homepage" || _type == "page") && _id == $pageId][0].content[_type == "contactBlock" && _key == $key][0] {
