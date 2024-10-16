@@ -11,7 +11,3 @@ export const POST_QUERY =
   defineQuery(`*[_type == "post" && slug.current == $slug][0]{
   title, body, mainImage
 }`);
-
-export const NAV_QUERY = defineQuery(
-  `*[_type == "navigation" && title == "Main Navigation"][0].items`
-);
