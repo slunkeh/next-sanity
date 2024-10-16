@@ -89,13 +89,15 @@ export async function ContactBlock({ _key, pageId }: ContactBlockProps) {
                 {...linkProps}
               >
                 {ctaText}
-                <Image
-                  src="/icons/arrow-right-short.svg"
-                  alt="Arrow down right"
-                  width={28}
-                  height={28}
-                  className="-rotate-45"
-                />
+                {ctaText && (
+                  <Image
+                    src="/icons/arrow-right-short.svg"
+                    alt="Arrow down right"
+                    width={28}
+                    height={28}
+                    className="-rotate-45"
+                  />
+                )}
               </Link>
             </div>
           </div>
