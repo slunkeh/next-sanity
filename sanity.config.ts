@@ -15,6 +15,7 @@ import { structure } from "./src/sanity/structure";
 import { presentationTool } from "sanity/presentation";
 import { resolve } from "@/sanity/presentation/resolve";
 import { singletonTools } from "sanity-plugin-singleton-tools";
+import { seoMetaFields } from "sanity-plugin-seo";
 
 export default defineConfig({
   basePath: "/studio",
@@ -36,5 +37,6 @@ export default defineConfig({
       },
     }),
     singletonTools(),
+    seoMetaFields(),
   ],
 });

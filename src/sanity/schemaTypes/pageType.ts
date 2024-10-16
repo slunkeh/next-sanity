@@ -17,6 +17,15 @@ export const pageType = defineType({
       },
     }),
     defineField({
+      name: "seo",
+      title: "SEO",
+      type: "seoMetaFields",
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+    }),
+    defineField({
       name: "content",
       type: "array",
       of: [
@@ -32,4 +41,17 @@ export const pageType = defineType({
       ],
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "seo.metaTitle",
+    },
+    prepare(selection) {
+      const { title, subtitle } = selection;
+      return {
+        title: title || "Untitled Page",
+        subtitle: subtitle ? `SEO Title: ${subtitle}` : "No SEO title set",
+      };
+    },
+  },
 });

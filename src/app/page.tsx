@@ -3,6 +3,7 @@ import { BlockRenderer } from "@/components/BlockRenderer";
 import { Header } from "@/components/Header";
 import { defineQuery } from "next-sanity";
 import { Footer } from "@/components/Footer";
+import { Metadata } from "next";
 
 const HOME_PAGE_QUERY = defineQuery(`
   *[_type == "homepage"][0]  { 
@@ -11,6 +12,13 @@ const HOME_PAGE_QUERY = defineQuery(`
     content[] {
       _type,
       _key
+    },
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage {
+        asset->
+      }
     }
   }
 `);
@@ -24,7 +32,51 @@ type HomePageData = {
   _id: string;
   title: string;
   content: HomePageContent[];
+  seo: {
+    metaTitle?: string;
+    metaDescription?: string;
+    openGraphImage?: {
+      asset: {
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+          };
+        };
+      };
+    };
+  };
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await sanityFetch<HomePageData>({ query: HOME_PAGE_QUERY });
+
+  if (!data || !data.seo) {
+    return {};
+  }
+
+  const { seo } = data;
+  const ogImage = seo.openGraphImage?.asset
+    ? [
+        {
+          url: seo.openGraphImage.asset.url,
+          width: seo.openGraphImage.asset.metadata.dimensions.width,
+          height: seo.openGraphImage.asset.metadata.dimensions.height,
+        },
+      ]
+    : [];
+
+  return {
+    title: seo.metaTitle,
+    description: seo.metaDescription,
+    openGraph: {
+      title: seo.metaTitle,
+      description: seo.metaDescription,
+      images: ogImage,
+    },
+  };
+}
 
 export default async function Home() {
   const data = await sanityFetch<HomePageData>({ query: HOME_PAGE_QUERY });
