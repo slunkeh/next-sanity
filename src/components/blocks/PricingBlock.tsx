@@ -14,7 +14,10 @@ const PRICING_BLOCK_QUERY = defineQuery(`
       frequency,
       features,
       ctaText,
-      ctaLink
+      ctaLinkType,
+      internalLink->{_type, slug},
+      url,
+      openInNewTab
     },
     backgroundImage {
       asset-> {
@@ -30,7 +33,10 @@ type PricingItem = {
   frequency: string;
   features: string[];
   ctaText: string;
-  ctaLink: string;
+  ctaLinkType: string;
+  internalLink?: { _type: string; slug: { current: string } };
+  url?: string;
+  openInNewTab: boolean;
 };
 
 type PricingBlockProps = {
@@ -74,40 +80,65 @@ export async function PricingBlock({ _key, pageId }: PricingBlockProps) {
         </div>
         <div>
           <ul className="mt-12 md:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pricingItems.map((pricingItem: PricingItem, index: number) => (
-              <li
-                key={index}
-                className="p-12 rounded-lg border shadow-md relative overflow-hidden bg-white"
-              >
-                <div className="flex flex-col gap-4">
-                  <div className="text-center flex flex-col gap-4">
-                    <h3 className="text-3xl tracking-tighter">
-                      {pricingItem.title}
-                    </h3>
-                    <h4 className="text-6xl font-bold">{pricingItem.price}</h4>
-                    <p className="text-xl">{pricingItem.frequency}</p>
+            {pricingItems.map((pricingItem: PricingItem, index: number) => {
+              let ctaHref = "/";
+              if (
+                pricingItem.ctaLinkType === "internal" &&
+                pricingItem.internalLink
+              ) {
+                ctaHref =
+                  pricingItem.internalLink._type === "homepage"
+                    ? "/"
+                    : `/${pricingItem.internalLink.slug.current}`;
+              } else if (pricingItem.ctaLinkType === "url") {
+                ctaHref = pricingItem.url || "/";
+              }
+
+              const linkProps = pricingItem.openInNewTab
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {};
+
+              return (
+                <li
+                  key={index}
+                  className="p-12 rounded-lg border shadow-md relative overflow-hidden bg-white"
+                >
+                  <div className="flex flex-col gap-4">
+                    <div className="text-center flex flex-col gap-4">
+                      <h3 className="text-3xl tracking-tighter">
+                        {pricingItem.title}
+                      </h3>
+                      <h4 className="text-6xl font-bold">
+                        {pricingItem.price}
+                      </h4>
+                      <p className="text-xl">{pricingItem.frequency}</p>
+                    </div>
+                    <Link
+                      href={ctaHref}
+                      className="btn btn--primary"
+                      {...linkProps}
+                    >
+                      {pricingItem.ctaText}
+                    </Link>
+                    <ul className="ml-4 flex flex-col gap-2 text-xl mt-8">
+                      {pricingItem.features.map((feature, index) => (
+                        <li className="flex gap-2 items-center" key={index}>
+                          <span>
+                            <Image
+                              height={20}
+                              width={20}
+                              src="/icons/mui-check.svg"
+                              alt="check icon"
+                            />
+                          </span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <Link href={pricingItem.ctaLink} className="btn btn--primary">
-                    {pricingItem.ctaText}
-                  </Link>
-                  <ul className="ml-4 flex flex-col gap-2 text-xl mt-8">
-                    {pricingItem.features.map((feature, index) => (
-                      <li className="flex gap-2 items-center" key={index}>
-                        <span>
-                          <Image
-                            height={20}
-                            width={20}
-                            src="/icons/mui-check.svg"
-                            alt="check icon"
-                          />
-                        </span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

@@ -62,7 +62,38 @@ export const heroBlockType = defineType({
       title: "Primary CTA",
       fields: [
         { name: "text", type: "string", title: "Button Text" },
-        { name: "href", type: "string", title: "Button Link" },
+        {
+          name: "linkType",
+          type: "string",
+          title: "Link Type",
+          options: {
+            list: [
+              { title: "Internal Link", value: "internal" },
+              { title: "URL or Anchor", value: "url" },
+            ],
+          },
+        },
+        {
+          name: "internalLink",
+          type: "reference",
+          title: "Internal Link",
+          to: [{ type: "homepage" }, { type: "page" }, { type: "post" }],
+          hidden: ({ parent }) => parent?.linkType !== "internal",
+        },
+        {
+          name: "url",
+          type: "string",
+          title: "URL or Anchor Link",
+          description: "Enter a full URL or an anchor link (e.g., '#section')",
+          hidden: ({ parent }) => parent?.linkType !== "url",
+        },
+        {
+          name: "openInNewTab",
+          type: "boolean",
+          title: "Open in New Tab",
+          description: "If checked, the link will open in a new tab",
+          initialValue: false,
+        },
       ],
     }),
     defineField({
@@ -71,7 +102,38 @@ export const heroBlockType = defineType({
       title: "Secondary CTA",
       fields: [
         { name: "text", type: "string", title: "Link Text" },
-        { name: "href", type: "string", title: "Link URL" },
+        {
+          name: "linkType",
+          type: "string",
+          title: "Link Type",
+          options: {
+            list: [
+              { title: "Internal Link", value: "internal" },
+              { title: "URL or Anchor", value: "url" },
+            ],
+          },
+        },
+        {
+          name: "internalLink",
+          type: "reference",
+          title: "Internal Link",
+          to: [{ type: "homepage" }, { type: "page" }, { type: "post" }],
+          hidden: ({ parent }) => parent?.linkType !== "internal",
+        },
+        {
+          name: "url",
+          type: "string",
+          title: "URL or Anchor Link",
+          description: "Enter a full URL or an anchor link (e.g., '#section')",
+          hidden: ({ parent }) => parent?.linkType !== "url",
+        },
+        {
+          name: "openInNewTab",
+          type: "boolean",
+          title: "Open in New Tab",
+          description: "If checked, the link will open in a new tab",
+          initialValue: false,
+        },
       ],
     }),
   ],

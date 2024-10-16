@@ -2,15 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/client";
 import { defineQuery } from "next-sanity";
+import { PortableText } from "@portabletext/react";
 
 const CTA_BLOCK_QUERY = defineQuery(`
   *[(_type == "homepage" || _type == "page") && _id == $pageId][0].content[_type == "ctaBlock" && _key == $key][0] {
     theme,
     headingLight,
     headingBold,
-    paragraphs,
+    content,
     buttonText,
-    buttonLink
+    buttonLinkType,
+    internalLink->{_type, slug},
+    url,
+    openInNewTab
   }
 `);
 
@@ -31,9 +35,12 @@ export async function CTABlock({ _key, pageId }: CTABlockProps) {
     theme,
     headingLight,
     headingBold,
-    paragraphs,
+    content,
     buttonText,
-    buttonLink,
+    buttonLinkType,
+    internalLink,
+    url,
+    openInNewTab,
   } = block;
 
   let background;
@@ -68,6 +75,18 @@ export async function CTABlock({ _key, pageId }: CTABlockProps) {
       button = "btn btn--light";
   }
 
+  let buttonHref = "/";
+  if (buttonLinkType === "internal" && internalLink) {
+    buttonHref =
+      internalLink._type === "homepage" ? "/" : `/${internalLink.slug.current}`;
+  } else if (buttonLinkType === "url") {
+    buttonHref = url || "/";
+  }
+
+  const linkProps = openInNewTab
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {};
+
   return (
     <section className="padding-global container-main">
       <div
@@ -81,16 +100,10 @@ export async function CTABlock({ _key, pageId }: CTABlockProps) {
             </span>
             <span className="font-bold">{headingBold}</span>
           </h2>
-          <div className="text-xl flex flex-col gap-4">
-            {paragraphs &&
-              paragraphs.map((paragraph, index) => (
-                <p
-                  key={index}
-                  dangerouslySetInnerHTML={{ __html: paragraph }}
-                />
-              ))}
+          <div className="text-xl">
+            <PortableText value={content} />
           </div>
-          <Link href={buttonLink || "/"} className={button}>
+          <Link href={buttonHref} className={button} {...linkProps}>
             {buttonText}
           </Link>
         </div>

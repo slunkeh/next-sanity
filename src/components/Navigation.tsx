@@ -10,10 +10,12 @@ type NavigationProps = {
     _key: string;
     title: string;
     href: string;
+    linkProps: { target?: string; rel?: string };
   }[];
   ctaButton: {
     text: string;
-    link: string;
+    href: string;
+    linkProps: { target?: string; rel?: string };
   };
 };
 
@@ -110,6 +112,7 @@ export function Navigation({
                     onClick={handleLinkClick}
                     href={item.href}
                     className="hover:text-ad-red"
+                    {...item.linkProps}
                   >
                     {item.title}
                   </Link>
@@ -119,11 +122,12 @@ export function Navigation({
                 <div className="inline-block pl-3 lg:pl-0">
                   <Link
                     onClick={handleLinkClick}
-                    href={ctaButton?.link || "/"}
+                    href={ctaButton.href}
                     className="btn btn--dark"
                     aria-current="page"
+                    {...ctaButton.linkProps}
                   >
-                    {ctaButton?.text}
+                    {ctaButton.text}
                   </Link>
                 </div>
               </li>

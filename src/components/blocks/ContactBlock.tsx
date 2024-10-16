@@ -16,7 +16,10 @@ const CONTACT_BLOCK_QUERY = defineQuery(`
     name,
     description,
     ctaText,
-    ctaLink
+    ctaLinkType,
+    internalLink->{_type, slug},
+    url,
+    openInNewTab
   }
 `);
 
@@ -33,7 +36,29 @@ export async function ContactBlock({ _key, pageId }: ContactBlockProps) {
 
   if (!block) return null;
 
-  const { heading, image, name, description, ctaText, ctaLink } = block;
+  const {
+    heading,
+    image,
+    name,
+    description,
+    ctaText,
+    ctaLinkType,
+    internalLink,
+    url,
+    openInNewTab,
+  } = block;
+
+  let ctaHref = "/";
+  if (ctaLinkType === "internal" && internalLink) {
+    ctaHref =
+      internalLink._type === "homepage" ? "/" : `/${internalLink.slug.current}`;
+  } else if (ctaLinkType === "url") {
+    ctaHref = url || "/";
+  }
+
+  const linkProps = openInNewTab
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {};
 
   return (
     <section id="contact">
@@ -55,10 +80,13 @@ export async function ContactBlock({ _key, pageId }: ContactBlockProps) {
               )}
             </div>
             <div className="text-lg">
-              <PortableText value={description} />
+              <div className="prose prose-lg">
+                <PortableText value={description} />
+              </div>
               <Link
-                href={ctaLink}
+                href={ctaHref}
                 className="font-semibold tracking-tighter flex items-center gap-1 mt-8 hover:text-ad-blue"
+                {...linkProps}
               >
                 {ctaText}
                 <Image

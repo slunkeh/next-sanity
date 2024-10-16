@@ -13,35 +13,30 @@ const HEADER_QUERY = defineQuery(`
       _key,
       title,
       linkType,
-      "reference": reference-> {
-        _id,
-        _type,
-        title,
-        "slug": slug.current,
-        "fullSlug": select(
-          _type == "homepage" => "/",
-          _type == "page" => "/" + slug.current,
-          _type == "post" => "/posts/" + slug.current
-        )
-      },
-      anchor
+      internalLink->{_type, slug},
+      url,
+      openInNewTab
     },
-    ctaButton
+    ctaButton {
+      text,
+      linkType,
+      internalLink->{_type, slug},
+      url,
+      openInNewTab
+    }
   }
 `);
 
 type NavigationItem = {
   _key: string;
   title: string;
-  linkType: "reference" | "anchor";
-  reference?: {
-    _id: string;
+  linkType: "internal" | "url";
+  internalLink?: {
     _type: string;
-    title: string | null;
-    slug: string | null;
-    fullSlug: string;
+    slug: { current: string };
   };
-  anchor?: string;
+  url?: string;
+  openInNewTab: boolean;
 };
 
 type HeaderData = {
@@ -53,7 +48,13 @@ type HeaderData = {
   navigationItems: NavigationItem[];
   ctaButton: {
     text: string;
-    link: string;
+    linkType: "internal" | "url";
+    internalLink?: {
+      _type: string;
+      slug: { current: string };
+    };
+    url?: string;
+    openInNewTab: boolean;
   };
 };
 
@@ -62,20 +63,38 @@ export async function Header() {
 
   if (!headerData) return null;
 
+  const getLinkProps = (item: NavigationItem | HeaderData["ctaButton"]) => {
+    let href = "/";
+    if (item.linkType === "internal" && item.internalLink) {
+      href =
+        item.internalLink._type === "homepage"
+          ? "/"
+          : `/${item.internalLink.slug.current}`;
+    } else if (item.linkType === "url") {
+      href = item.url || "/";
+    }
+    const linkProps = item.openInNewTab
+      ? { target: "_blank", rel: "noopener noreferrer" }
+      : {};
+    return { href, linkProps };
+  };
+
   const navigationItems = headerData.navigationItems.map((item) => ({
     _key: item._key,
     title: item.title,
-    href:
-      item.linkType === "reference"
-        ? item.reference?.fullSlug || "/"
-        : item.anchor || "/",
+    ...getLinkProps(item),
   }));
+
+  const ctaButton = {
+    text: headerData.ctaButton.text,
+    ...getLinkProps(headerData.ctaButton),
+  };
 
   return (
     <Navigation
       logo={headerData.logo.asset.url}
       navigationItems={navigationItems}
-      ctaButton={headerData.ctaButton}
+      ctaButton={ctaButton}
     />
   );
 }

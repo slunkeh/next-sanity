@@ -8,7 +8,10 @@ const FAQ_BLOCK_QUERY = defineQuery(`
     heading,
     subheading,
     ctaText,
-    ctaLink,
+    ctaLinkType,
+    internalLink->{_type, slug},
+    url,
+    openInNewTab,
     faqs[] {
       question,
       answer
@@ -29,7 +32,28 @@ export async function FaqBlock({ _key, pageId }: FaqBlockProps) {
 
   if (!blockData) return null;
 
-  const { heading, subheading, ctaText, ctaLink, faqs } = blockData;
+  const {
+    heading,
+    subheading,
+    ctaText,
+    ctaLinkType,
+    internalLink,
+    url,
+    openInNewTab,
+    faqs,
+  } = blockData;
+
+  let ctaHref = "/";
+  if (ctaLinkType === "internal" && internalLink) {
+    ctaHref =
+      internalLink._type === "homepage" ? "/" : `/${internalLink.slug.current}`;
+  } else if (ctaLinkType === "url") {
+    ctaHref = url || "/";
+  }
+
+  const linkProps = openInNewTab
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {};
 
   return (
     <section id="faqs" className="section-padding-medium text-dark">
@@ -37,7 +61,7 @@ export async function FaqBlock({ _key, pageId }: FaqBlockProps) {
         <div className="flex flex-col items-start gap-4 col-span-1 lg:col-span-4">
           <h2 className="text-5xl tracking-tighter font-bold">{heading}</h2>
           <p className="text-xl">{subheading}</p>
-          <Link className="btn btn--primary" href={ctaLink}>
+          <Link className="btn btn--primary" href={ctaHref} {...linkProps}>
             {ctaText}
           </Link>
         </div>

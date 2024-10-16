@@ -23,9 +23,36 @@ export const faqBlockType = defineType({
       title: "CTA Button Text",
     }),
     defineField({
-      name: "ctaLink",
+      name: "ctaLinkType",
       type: "string",
-      title: "CTA Button Link",
+      title: "CTA Link Type",
+      options: {
+        list: [
+          { title: "Internal Link", value: "internal" },
+          { title: "URL or Anchor", value: "url" },
+        ],
+      },
+    }),
+    defineField({
+      name: "internalLink",
+      type: "reference",
+      title: "Internal Link",
+      to: [{ type: "homepage" }, { type: "page" }, { type: "post" }],
+      hidden: ({ parent }) => parent?.ctaLinkType !== "internal",
+    }),
+    defineField({
+      name: "url",
+      type: "string",
+      title: "URL or Anchor Link",
+      description: "Enter a full URL or an anchor link (e.g., '#section')",
+      hidden: ({ parent }) => parent?.ctaLinkType !== "url",
+    }),
+    defineField({
+      name: "openInNewTab",
+      type: "boolean",
+      title: "Open in New Tab",
+      description: "If checked, the link will open in a new tab",
+      initialValue: false,
     }),
     defineField({
       name: "faqs",

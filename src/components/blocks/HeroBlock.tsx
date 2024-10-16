@@ -15,8 +15,20 @@ const HERO_BLOCK_QUERY = defineQuery(`
         url
       }
     },
-    ctaPrimary,
-    ctaSecondary,
+    ctaPrimary {
+      text,
+      linkType,
+      internalLink->{_type, slug},
+      url,
+      openInNewTab
+    },
+    ctaSecondary {
+      text,
+      linkType,
+      internalLink->{_type, slug},
+      url,
+      openInNewTab
+    },
     heroImage {
       asset-> {
         url
@@ -52,10 +64,25 @@ export async function HeroBlock({ _key, pageId }: HeroBlockProps) {
   const imageUrl = backgroundImage?.asset?.url;
   const heroImageUrl = heroImage?.asset?.url;
 
-  // Provide default values for ctaPrimary and ctaSecondary
-  const defaultCTA = { text: "Learn More", href: "/" };
-  const primaryCTA = ctaPrimary || defaultCTA;
-  const secondaryCTA = ctaSecondary || defaultCTA;
+  // Helper function to get the correct href and link props
+  const getLinkProps = (cta) => {
+    let href = "/";
+    if (cta.linkType === "internal" && cta.internalLink) {
+      href =
+        cta.internalLink._type === "homepage"
+          ? "/"
+          : `/${cta.internalLink.slug.current}`;
+    } else if (cta.linkType === "url") {
+      href = cta.url || "/";
+    }
+    const linkProps = cta.openInNewTab
+      ? { target: "_blank", rel: "noopener noreferrer" }
+      : {};
+    return { href, linkProps };
+  };
+
+  const primaryCTAProps = getLinkProps(ctaPrimary);
+  const secondaryCTAProps = getLinkProps(ctaSecondary);
 
   return (
     <section className="w-full relative">
@@ -84,14 +111,19 @@ export async function HeroBlock({ _key, pageId }: HeroBlockProps) {
                 {subheading}
               </p>
               <div className="flex gap-4 items-center">
-                <Link href={primaryCTA.href} className="btn btn--primary">
-                  {primaryCTA.text}
+                <Link
+                  href={primaryCTAProps.href}
+                  className="btn btn--primary"
+                  {...primaryCTAProps.linkProps}
+                >
+                  {ctaPrimary.text}
                 </Link>
                 <Link
-                  href={secondaryCTA.href}
+                  href={secondaryCTAProps.href}
                   className="font-semibold tracking-tighter flex items-center gap-1"
+                  {...secondaryCTAProps.linkProps}
                 >
-                  {secondaryCTA.text}
+                  {ctaSecondary.text}
                   <Image
                     src="/icons/arrow-right-short.svg"
                     alt="Arrow down right"
@@ -115,14 +147,19 @@ export async function HeroBlock({ _key, pageId }: HeroBlockProps) {
                   {subheading}
                 </p>
                 <div className="flex gap-4 items-center">
-                  <Link href={primaryCTA.href} className="btn btn--primary">
-                    {primaryCTA.text}
+                  <Link
+                    href={primaryCTAProps.href}
+                    className="btn btn--primary"
+                    {...primaryCTAProps.linkProps}
+                  >
+                    {ctaPrimary.text}
                   </Link>
                   <Link
-                    href={secondaryCTA.href}
+                    href={secondaryCTAProps.href}
                     className="font-semibold tracking-tighter flex items-center gap-1"
+                    {...secondaryCTAProps.linkProps}
                   >
-                    {secondaryCTA.text}
+                    {ctaSecondary.text}
                     <Image
                       src="/icons/arrow-right-short.svg"
                       alt="Arrow down right"

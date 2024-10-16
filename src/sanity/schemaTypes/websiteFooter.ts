@@ -35,7 +35,39 @@ export const websiteFooter = defineType({
           type: "object",
           fields: [
             { name: "text", type: "string", title: "Link Text" },
-            { name: "url", type: "string", title: "Link URL" },
+            {
+              name: "linkType",
+              title: "Link Type",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Internal Link", value: "internal" },
+                  { title: "URL or Anchor", value: "url" },
+                ],
+              },
+            },
+            {
+              name: "internalLink",
+              title: "Internal Link",
+              type: "reference",
+              to: [{ type: "homepage" }, { type: "post" }, { type: "page" }],
+              hidden: ({ parent }) => parent?.linkType !== "internal",
+            },
+            {
+              name: "url",
+              title: "URL or Anchor Link",
+              type: "string",
+              description:
+                "Enter a full URL or an anchor link (e.g., '#section')",
+              hidden: ({ parent }) => parent?.linkType !== "url",
+            },
+            {
+              name: "openInNewTab",
+              type: "boolean",
+              title: "Open in New Tab",
+              description: "If checked, the link will open in a new tab",
+              initialValue: false,
+            },
           ],
         },
       ],
