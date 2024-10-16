@@ -124,13 +124,15 @@ export async function HeroBlock({ _key, pageId }: HeroBlockProps) {
                   {...secondaryCTAProps.linkProps}
                 >
                   {ctaSecondary.text}
-                  <Image
-                    src="/icons/arrow-right-short.svg"
-                    alt="Arrow down right"
-                    width={22}
-                    height={22}
-                    className="rotate-90"
-                  />
+                  {ctaSecondary.text && (
+                    <Image
+                      src="/icons/arrow-right-short.svg"
+                      alt="Arrow down right"
+                      width={22}
+                      height={22}
+                      className="rotate-90"
+                    />
+                  )}
                 </Link>
               </div>
             </div>
@@ -160,13 +162,15 @@ export async function HeroBlock({ _key, pageId }: HeroBlockProps) {
                     {...secondaryCTAProps.linkProps}
                   >
                     {ctaSecondary.text}
-                    <Image
-                      src="/icons/arrow-right-short.svg"
-                      alt="Arrow down right"
-                      width={22}
-                      height={22}
-                      className="rotate-90"
-                    />
+                    {ctaSecondary.text && (
+                      <Image
+                        src="/icons/arrow-right-short.svg"
+                        alt="Arrow down right"
+                        width={22}
+                        height={22}
+                        className="rotate-90"
+                      />
+                    )}
                   </Link>
                 </div>
               </div>
