@@ -1,19 +1,16 @@
 import Link from "next/link";
+import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/client";
 import { defineQuery } from "next-sanity";
 
 const CTA_BLOCK_QUERY = defineQuery(`
   *[(_type == "homepage" || _type == "page") && _id == $pageId][0].content[_type == "ctaBlock" && _key == $key][0] {
-    heading,
+    theme,
+    headingLight,
+    headingBold,
+    paragraphs,
     buttonText,
-    linkType,
-    "internalLink": internalLink-> {
-      _id,
-      _type,
-      title,
-      "slug": slug.current
-    },
-    externalLink
+    buttonLink
   }
 `);
 
@@ -23,38 +20,89 @@ type CTABlockProps = {
 };
 
 export async function CTABlock({ _key, pageId }: CTABlockProps) {
-  const block = await sanityFetch({
+  const block = await sanityFetch<CTABlockData | null>({
     query: CTA_BLOCK_QUERY,
     params: { key: _key, pageId },
   });
 
   if (!block) return null;
 
-  const { heading, buttonText, linkType, internalLink, externalLink } = block;
+  const {
+    theme,
+    headingLight,
+    headingBold,
+    paragraphs,
+    buttonText,
+    buttonLink,
+  } = block;
 
-  let href = "#";
-  if (linkType === "internal" && internalLink?.slug) {
-    href = `/${internalLink.slug}`;
-  } else if (linkType === "external" && externalLink) {
-    href = externalLink;
+  let background;
+  let button;
+  switch (theme) {
+    case "primary":
+      background = "bg-ad-blue text-white";
+      button = "btn btn--light";
+      break;
+    case "secondary":
+      background = "bg-ad-mint";
+      button = "btn btn--primary";
+      break;
+    case "tertiary":
+      background = "bg-ad-yellow";
+      button = "btn btn--dark";
+      break;
+    case "dark":
+      background = "bg-ad-dark text-white";
+      button = "btn btn--white";
+      break;
+    case "white":
+      background = "bg-white text-ad-dark";
+      button = "btn btn--dark";
+      break;
+    case "gradient":
+      background = "bg-gradient-to-r from-ad-yellow-200 to-ad-mint-400";
+      button = "btn btn--dark";
+      break;
+    default:
+      background = "bg-ad-blue";
+      button = "btn btn--light";
   }
 
   return (
-    <div className="bg-gray-100 py-16">
-      <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-8">{heading}</h2>
-        {buttonText && (
-          <Link
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
-            href={href}
-            {...(linkType === "external"
-              ? { target: "_blank", rel: "noopener noreferrer" }
-              : {})}
-          >
+    <section className="padding-global container-main">
+      <div
+        className={`mx-4 md:mx-0 ${background} rounded-[3rem] md:rounded-[5rem] py-10 px-8 md:py-12 md:px-16 relative overflow-hidden`}
+      >
+        <div className="flex flex-col items-start gap-8 max-w-[55rem] relative z-[2]">
+          <h2 className="text-3xl md:text-5xl tracking-tighter max-w-[45rem]">
+            <span className="font-light">
+              {headingLight}
+              <br />
+            </span>
+            <span className="font-bold">{headingBold}</span>
+          </h2>
+          <div className="text-xl flex flex-col gap-4">
+            {paragraphs &&
+              paragraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  dangerouslySetInnerHTML={{ __html: paragraph }}
+                />
+              ))}
+          </div>
+          <Link href={buttonLink || "/"} className={button}>
             {buttonText}
           </Link>
-        )}
+        </div>
+        <Image
+          className="absolute z-[1] -bottom-2 right-0 opacity-5"
+          src="/decorative/ad-triangle.svg"
+          height={600}
+          width={600}
+          alt="decorative triangle"
+        />
+        <div className="noise-overlay absolute inset-0 h-full w-full pointer-events-none opacity-5"></div>
       </div>
-    </div>
+    </section>
   );
 }

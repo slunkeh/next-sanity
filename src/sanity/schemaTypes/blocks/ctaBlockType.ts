@@ -8,33 +8,45 @@ export const ctaBlockType = defineType({
   icon: BlockElementIcon,
   fields: [
     defineField({
-      name: "heading",
+      name: "theme",
       type: "string",
-    }),
-    defineField({
-      name: "buttonText",
-      type: "string",
-    }),
-    defineField({
-      name: "linkType",
-      type: "string",
+      title: "Theme",
       options: {
         list: [
-          { title: "Internal Page", value: "internal" },
-          { title: "External URL", value: "external" },
+          { title: "Primary", value: "primary" },
+          { title: "Secondary", value: "secondary" },
+          { title: "Tertiary", value: "tertiary" },
+          { title: "Dark", value: "dark" },
+          { title: "White", value: "white" },
+          { title: "Gradient", value: "gradient" },
         ],
       },
     }),
     defineField({
-      name: "internalLink",
-      type: "reference",
-      to: [{ type: "page" }], // Assuming you have a "page" document type
-      hidden: ({ parent }) => parent?.linkType !== "internal",
+      name: "headingLight",
+      type: "string",
+      title: "Heading (Light)",
     }),
     defineField({
-      name: "externalLink",
-      type: "url",
-      hidden: ({ parent }) => parent?.linkType !== "external",
+      name: "headingBold",
+      type: "string",
+      title: "Heading (Bold)",
+    }),
+    defineField({
+      name: "paragraphs",
+      type: "array",
+      title: "Paragraphs",
+      of: [{ type: "text" }],
+    }),
+    defineField({
+      name: "buttonText",
+      type: "string",
+      title: "Button Text",
+    }),
+    defineField({
+      name: "buttonLink",
+      type: "string",
+      title: "Button Link",
     }),
   ],
 });

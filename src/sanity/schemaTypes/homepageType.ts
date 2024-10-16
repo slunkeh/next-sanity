@@ -18,6 +18,8 @@ export const homepageType = defineType({
         { type: "featuresBlock" },
         { type: "portfolioBlock" },
         { type: "pricingBlock" },
+        { type: "faqBlock" },
+        { type: "contactBlock" },
       ],
     }),
   ],

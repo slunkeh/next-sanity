@@ -13,6 +13,8 @@ import { servicesBlockType } from "./blocks/servicesBlockType";
 import { featuresBlockType } from "./blocks/featuresBlockType";
 import { portfolioBlockType } from "./blocks/portfolioBlockType";
 import { pricingBlockType } from "./blocks/pricingBlockType";
+import { faqBlockType } from "./blocks/faqBlockType";
+import { contactBlockType } from "./blocks/contactBlockType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -29,5 +31,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     featuresBlockType,
     portfolioBlockType,
     pricingBlockType,
+    faqBlockType,
+    contactBlockType,
   ],
 };
