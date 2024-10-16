@@ -88,6 +88,7 @@ export async function ContactBlock({ _key, pageId }: ContactBlockProps) {
                 className="font-semibold tracking-tighter flex items-center gap-1 mt-8 hover:text-ad-blue"
                 {...linkProps}
               >
+                {ctaText}
                 {ctaText && (
                   <Image
                     src="/icons/arrow-right-short.svg"
