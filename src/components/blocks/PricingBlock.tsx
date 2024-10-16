@@ -65,7 +65,7 @@ export async function PricingBlock({ _key, pageId }: PricingBlockProps) {
         />
       )}
       <div className="container-main global-padding">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-16 relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold max-w-[45rem] tracking-tighter">
             {headingPart1} <br />
             <span className="text-gradient">{headingPart2}</span>
