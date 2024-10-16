@@ -1,7 +1,6 @@
 import type { StructureResolver } from "sanity/structure";
 import { singletonDocumentListItem } from "sanity-plugin-singleton-tools";
-import { HomeIcon } from "@sanity/icons";
-import { StackIcon } from "@sanity/icons";
+import { HomeIcon, StackIcon } from "@sanity/icons";
 
 export const structure: StructureResolver = (S, context) =>
   S.list()
@@ -25,6 +24,15 @@ export const structure: StructureResolver = (S, context) =>
         title: "Homepage",
         id: "homepage",
         icon: HomeIcon,
+      }),
+      // Website footer as a singleton
+      singletonDocumentListItem({
+        S,
+        context,
+        type: "websiteFooter",
+        title: "Website Footer",
+        id: "websiteFooter",
+        icon: StackIcon,
       }),
       S.documentTypeListItem("page").title("Pages"),
       S.divider(),

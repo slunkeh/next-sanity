@@ -7,6 +7,7 @@ import { authorType } from "./authorType";
 import { pageType } from "./pageType";
 import { homepageType } from "./homepageType";
 import { websiteHeader } from "./websiteHeader";
+import { websiteFooter } from "./websiteFooter";
 import { heroBlockType } from "./blocks/heroBlockType";
 import { ctaBlockType } from "./blocks/ctaBlockType";
 import { servicesBlockType } from "./blocks/servicesBlockType";
@@ -25,6 +26,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     pageType,
     homepageType,
     websiteHeader,
+    websiteFooter,
     heroBlockType,
     ctaBlockType,
     servicesBlockType,
